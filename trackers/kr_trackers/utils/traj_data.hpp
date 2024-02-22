@@ -47,7 +47,7 @@ enum PolyType
  **/
 
 // one segment of a trajectory, one dimension
-template <int dim, int degree>
+template <int degree, int dim>
 class Piece
 {
  private:
@@ -220,11 +220,11 @@ class Piece
  * @brief trajectory data
  * @tparam dim = 1-4
  */
-template <int dim, int degree>
+template <int degree, int dim>
 class Trajectory
 {
  private:
-  std::vector<Piece<dim, degree>> seg_pieces;
+  std::vector<Piece<degree, dim>> seg_pieces;
   int seg_num;
   double dttotal;
 
@@ -232,7 +232,7 @@ class Trajectory
   Trajectory(){}
   ~Trajectory(){}
 
-  Trajectory(std::vector<Piece<dim, degree>> segs, double dur)
+  Trajectory(std::vector<Piece<degree, dim>> segs, double dur)
   {
     seg_pieces = segs;
     dttotal = dur;
@@ -282,13 +282,13 @@ class Trajectory
   }
 };
 
-typedef Trajectory<1, 5> Trajectory1D;
+typedef Trajectory<5, 1> Trajectory1D;
 /// Trajectory in 2D
-typedef Trajectory<2, 5> Trajectory2D;
+typedef Trajectory<5, 2> Trajectory2D;
 /// Trajectory in 3D
-typedef Trajectory<3, 5> Trajectory3D;
+typedef Trajectory<5, 3> Trajectory3D;
 /// Trajectory in 3D with yaw
-typedef Trajectory<4, 5> Trajectory4D;
+typedef Trajectory<5, 4> Trajectory4D;
 
 
 class DiscreteStates
