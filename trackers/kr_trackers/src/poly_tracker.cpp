@@ -543,8 +543,9 @@ void PolyTracker::goal_callback()
           traj_opt::Piece<3, 2> seg(traj_opt::STANDARD, Coeffs_yaw, dt);
           segs_2d_yaw.push_back(seg);
         }
-        next_trajectory_->traj_virtual_yaw_ = traj_opt::Trajectory<2,3>(segs_2d_yaw, total_yaw_duration);
+        next_trajectory_->traj_virtual_yaw_ = traj_opt::Trajectory<3, 2>(segs_2d_yaw, total_yaw_duration);
         next_trajectory_->traj_yaw_dur_  = total_yaw_duration;
+        //std::cout << "***************************receive 2d yaw traj" << std::endl;
 
       }
 
