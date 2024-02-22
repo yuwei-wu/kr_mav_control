@@ -10,6 +10,9 @@ kr_tracker_msgs/Polynomial[] seg_x
 kr_tracker_msgs/Polynomial[] seg_y
 kr_tracker_msgs/Polynomial[] seg_z
 kr_tracker_msgs/Polynomial[] seg_yaw
+uint8 yaw_order
+uint8 yaw_dim
+kr_tracker_msgs/Polynomial[] seg_yaw_y # add for virtual yaw
 ######################## bspline / berstein seting
 int8 cpts_status # 0 is no valid cpts, 1 is berstein, 2 is bspline
 float32[] knots

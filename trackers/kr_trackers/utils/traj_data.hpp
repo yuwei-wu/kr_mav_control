@@ -47,11 +47,11 @@ enum PolyType
  **/
 
 // one segment of a trajectory, one dimension
-template <int dim>
+template <int dim, int degree>
 class Piece
 {
  private:
-  int degree = 5;  // set 5
+  //int degree = 5;  // set 5
   float dt;        // dt
   PolyType basis;
   Eigen::MatrixXd ncoeffs;
@@ -66,13 +66,13 @@ class Piece
     basis = ptype;
     ncoeffs = ncoeffs_matrix;
     dt = dur;
-    degree = ncoeffs.cols() -1;
+    //degree = ncoeffs.cols() -1;
   }
 
   Piece(PolyType ptype, Eigen::MatrixXd cpts, float dur, int deg)
   {
     basis = ptype;
-    degree = deg;
+    //degree = deg;
     dt = dur;
     getNcoeffs(cpts);
   }
@@ -220,11 +220,11 @@ class Piece
  * @brief trajectory data
  * @tparam dim = 1-4
  */
-template <int dim>
+template <int dim, int degree>
 class Trajectory
 {
  private:
-  std::vector<Piece<dim>> seg_pieces;
+  std::vector<Piece<dim, degree>> seg_pieces;
   int seg_num;
   double dttotal;
 
@@ -232,7 +232,7 @@ class Trajectory
   Trajectory(){}
   ~Trajectory(){}
 
-  Trajectory(std::vector<Piece<dim>> segs, double dur)
+  Trajectory(std::vector<Piece<dim, degree>> segs, double dur)
   {
     seg_pieces = segs;
     dttotal = dur;
@@ -282,13 +282,13 @@ class Trajectory
   }
 };
 
-typedef Trajectory<1> Trajectory1D;
+typedef Trajectory<1, 5> Trajectory1D;
 /// Trajectory in 2D
-typedef Trajectory<2> Trajectory2D;
+typedef Trajectory<2, 5> Trajectory2D;
 /// Trajectory in 3D
-typedef Trajectory<3> Trajectory3D;
+typedef Trajectory<3, 5> Trajectory3D;
 /// Trajectory in 3D with yaw
-typedef Trajectory<4> Trajectory4D;
+typedef Trajectory<4, 5> Trajectory4D;
 
 
 class DiscreteStates
