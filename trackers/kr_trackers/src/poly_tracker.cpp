@@ -76,8 +76,8 @@ class PolyTracker : public kr_trackers_manager::Tracker
 
   /*** parameters ***/
   double time_forward_ = 1.5;
-  double max_dyaw_ = 0.5 * M_PI;
-  double max_ddyaw_ = M_PI;
+  double max_dyaw_ = 0.3 * M_PI;
+  double max_ddyaw_ = 0.8 * M_PI;
 
   std::pair<double, double> calculate_yaw(Eigen::Vector3d &dir, double dt);
   double range(double angle);
