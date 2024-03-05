@@ -179,6 +179,7 @@ kr_mav_msgs::PositionCommand::ConstPtr PolyTracker::update(const nav_msgs::Odome
     pos = last_pos_;
   }
 
+
   if(yaw_set_) // 1. rotate yaw mode
   {
     double dyaw = range(init_final_yaw_ - cur_yaw_);
@@ -186,9 +187,11 @@ kr_mav_msgs::PositionCommand::ConstPtr PolyTracker::update(const nav_msgs::Odome
     if(abs(dyaw) < 0.5 || init_yaw_time_ > 2.0)
     {
       yaw_set_ = false;
-      // ROS_INFO(" yaw_set finished ");
+      ROS_INFO(" yaw_set finished ");
       time_last_ = time_now;
-      return kr_mav_msgs::PositionCommand::Ptr();
+      yaw_yawdot.first = init_final_yaw_;
+      yaw_yawdot.second = 0.0;
+      //return kr_mav_msgs::PositionCommand::Ptr();
     }
 
     double yaw_temp = cur_yaw_ + (time_now - time_last_).toSec() * init_dyaw_;
