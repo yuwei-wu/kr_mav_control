@@ -5,7 +5,7 @@
 #include <kr_trackers_manager/Tracker.h>
 #include <ros/ros.h>
 #include <tf/transform_datatypes.h>
-
+#include <geometry_msgs/TwistStamped.h>
 #include <Eigen/Eigen>
 #include <traj_data.hpp>
 
@@ -46,6 +46,7 @@ class PolyTracker : public kr_trackers_manager::Tracker
   void preempt_callback();
 
   ros::Subscriber sub_poly_cmd_;
+  ros::Publisher vel_cmd_pub_;
   kr_mav_msgs::PositionCommand position_cmd_;
 
   /*** odom related ***/
@@ -95,6 +96,10 @@ void PolyTracker::Initialize(const ros::NodeHandle &nh)
 
   current_trajectory_.reset(new TrajData);
   next_trajectory_.reset(new TrajData);  
+
+  vel_cmd_pub_ = priv_nh.advertise<geometry_msgs::TwistStamped>
+                      ("/kingfisher/dodgeros_pilot/velocity_command", 1);
+
   ROS_WARN("PolyTracker initialized!");
 }
 
@@ -329,6 +334,18 @@ kr_mav_msgs::PositionCommand::ConstPtr PolyTracker::update(const nav_msgs::Odome
   position_cmd_.yaw = yaw_yawdot.first;
   position_cmd_.yaw_dot = yaw_yawdot.second;
 
+
+  //dodge command
+  geometry_msgs::TwistStamped vel_cmd;
+  vel_cmd.header.frame_id = msg->header.frame_id;
+  vel_cmd.header.stamp = time_now;
+  vel_cmd.twist.linear.x = vel(0);
+  vel_cmd.twist.linear.y = vel(1);
+  vel_cmd.twist.linear.z = vel(2);
+  vel_cmd.twist.angular.z = yaw_yawdot.second;
+  
+  vel_cmd_pub_.publish(vel_cmd);
+  
   time_last_ = time_now;
   last_yaw_  = yaw_yawdot.first;
 
